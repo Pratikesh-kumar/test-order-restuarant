@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>PK Restaurant</title>
+  </head>
+  <style>
+    input {
+      font-size: 20px;
+      width: 300px;
+    }
+
+    label {
+      font-size: larger;
+    }
+
+    button {
+      color: rgb(26, 4, 4);
+      background-color: rgb(223, 216, 216);
+    }
+
+    .container {
+      margin: auto;
+      width: 75%;
+      border: 2px solid rgb(23, 43, 132);
+      padding: 10px;
+      text-align: left;
+      background-color: rgb(138, 124, 124);
+      color: white;
+    }
+
+    body {
+      background: linear-gradient(
+        to top left,
+        rgb(195, 76, 76),
+        rgb(39, 63, 132)
+      );
+    }
+
+    h1 {
+      text-shadow: 2px 2px rgb(161, 164, 165);
+    }
+  </style>
+
+  <body>
+    <h2>
+      <i>
+        <marquee direction="left"> Welcome to Pk Restaurant</marquee>
+      </i>
+    </h2>
+
+    <div class="container">
+      <img src="food.jpeg" alt="Paris" style="width: 150px" />
+      <h1>
+        <b>
+          <center>Please order something</center>
+          <hr />
+        </b>
+      </h1>
+      <form id="main">
+        <label><b>Unique Order Id:</b><br /></label>
+        <input type="number" name="num" id="uniOrderInput" required />
+        <br /><br />
+        <label><b>choose price:</b><br /></label>
+        <input
+          type="number"
+          name="price"
+          id="priceInput"
+          placeholder="amount"
+          required
+        />
+        <br /><br />
+        <label><b>choose dish</b><br /></label>
+        <input
+          type="text"
+          name="dish"
+          id="dish"
+          placeholder="enter u want to eat"
+          required
+        />
+        <br /><br /><br />
+        <label for="tables" id="table" name="tables">choose a table :</label>
+        <select name="tables" id="down">
+          <option value="table1">table1</option>
+          <option value="table2">table2</option>
+          <option value="table3">table3</option>
+        </select>
+        <br /><br />
+        <button type="submit">add to bill</button>
+      </form>
+      <h1>>-------ORDERS------></h1>
+      <ul id="user1">
+        order 1
+      </ul>
+      <ul id="user2">
+        order 2
+      </ul>
+      <ul id="user3">
+        order 3
+      </ul>
+    </div>
+    <script>
+      const form = document.getElementById("main");
+      form.addEventListener("submit", tolocalStorage);
+      function tolocalStorage(event) {
+        event.preventDefault();
+        const number = event.target.num.value;
+        const price = event.target.price.value;
+        const dish = event.target.dish.value;
+
+        const obj = {
+          number,
+          price,
+          dish,
+        };
+        localStorage.setItem(obj.number, JSON.stringify(obj));
+
+        showUser(obj);
+      }
+      function showUser(obj) {
+        let list = document.createElement("li");
+        list.textContent +=
+          obj.number +
+          "---" +
+          obj.price +
+          "---" +
+          "---" +
+          obj.dish +
+          "----------------";
+        list.style.backgroundColor = "black";
+        list.style.color = "white";
+
+        let newuser1 = document.getElementById("user1");
+        let newuser2 = document.getElementById("user2");
+        let newuser3 = document.getElementById("user3");
+
+        // adding delete button:::
+        const deleteButton = document.createElement("input");
+        deleteButton.type = "button";
+        deleteButton.value = "delete";
+        deleteButton.style.width = "10%";
+        deleteButton.style.backgroundColor = "white";
+        deleteButton.style.float = "centre";
+        //----------------------------------//------------------------------------
+
+        let temp = document.getElementById("down").value;
+        console.log(temp);
+
+        if (temp == "table1") {
+          newuser1.appendChild(list);
+          list.appendChild(deleteButton);
+          deleteButton.onclick = () => {
+            localStorage.removeItem(obj.number);
+            newuser1.removeChild(list);
+          };
+        } else if (temp == "table2") {
+          newuser2.appendChild(list);
+
+          list.appendChild(deleteButton);
+          deleteButton.onclick = () => {
+            localStorage.removeItem(obj.number);
+            newuser2.removeChild(list);
+          };
+        } else {
+          newuser3.appendChild(list);
+          list.appendChild(deleteButton);
+          deleteButton.onclick = () => {
+            localStorage.removeItem(obj.number);
+            newuser3.removeChild(list);
+          };
+        }
+      }
+    </script>
+  </body>
+</html>
